@@ -7,10 +7,9 @@
     {
       "path": "./tsconfig.node.json"
     }
-	]
-  	,
-	"compilerOptions": {
-		"jsx": "react-jsx",
-		"allowUmdGlobalAccess": true
-	}
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowUmdGlobalAccess": true
+  }
 }
