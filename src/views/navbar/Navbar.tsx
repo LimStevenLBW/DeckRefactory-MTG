@@ -3,7 +3,21 @@ import { NavLink, Link } from "react-router";
 import navbarIcon from '../../../images/navbar.png'
 import './Navbar.css'
 
+import { useState, useEffect } from 'react';
+// @ts-ignore
+import { Collapse } from 'bootstrap';
+
 const Navbar = ({ user: any }) => {
+    let [toggle, setToggle] = useState(false);
+    const collapsed = "nav navbar-nav";
+
+    //Every render, a side effect
+    useEffect(() => {
+        let myCollapse = document.getElementById('collapsibleNavbar')
+        let bsCollapse = new Collapse(myCollapse, { toggle: false })
+        toggle ? bsCollapse.show() : bsCollapse.hide()
+    })
+
     return (
         <nav className="navbar-bg navbar navbar-expand-lg navbar-light">
             <div className="container-fluid">
@@ -19,13 +33,18 @@ const Navbar = ({ user: any }) => {
                     </NavLink>
                 </div>
 
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <button className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavbar"
+                    onClick={() => setToggle(toggle => !toggle)}
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div className="collapse navbar-collapse " id="collapsibleNavbar">
-                    <div className="navbar-custom-mr">
-                        <ul className="nav navbar-nav navbar-custom-mr2">
+                    <div className="navbar-collapsible">
+                        <ul className={toggle ? collapsed : collapsed + " navbar-collapsible-2"}>
                             <li className="nav-item">
                                 <NavLink
                                     className="nav-link"
@@ -57,7 +76,7 @@ const Navbar = ({ user: any }) => {
                             </li>
                         </ul>
 
-                        <ul className="nav navbar-nav navbar-custom-mr3 ">
+                        <ul className={toggle ? collapsed : collapsed + " navbar-collapsible-3"}>
                             {false ?
                                 (<React.Fragment>
                                     <li className="nav-item">
@@ -94,7 +113,7 @@ const Navbar = ({ user: any }) => {
                 </div>
             </div>
 
-        </nav>
+        </nav >
     );
 }
 

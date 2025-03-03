@@ -6,15 +6,15 @@
     height: 2.2rem;
 }
 
-.navbar-custom-mr {
+.navbar-collapsible {
     display: inline;
     width: 100%;
 }
 
-.navbar-custom-mr2 {
+.navbar-collapsible-2 {
     float: left;
 }
 
-.navbar-custom-mr3 {
+.navbar-collapsible-3 {
     float: right;
 }
