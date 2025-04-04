@@ -1,4 +1,5 @@
 import './Home.css';
+import DeckExplorer from './DeckExplorer';
 import jumbotronButton from '../../../images/navbar.png';
 //import {backend, mtgIO, env} from '../../config';
 
@@ -9,14 +10,12 @@ const Home = (props: any) => {
     console.log("env", env);*/
 
     return (
-        <><div className="background-wallpaper jumbotron jumbotron-fluid m-0">
-            <div className="container pl-0 pr-0">
-
-                <div className="row home-container-text">
+        <>
+            <div className="container-fluid home-container-text">
+                <div className="row">
                     <div className="col-8">
                         <h1 className="welcome-heading">Welcome to <br />DeckRefactory</h1>
-                        <p className="welcome-descript">Discover, Create, Store, and Fine-Tune your Magic the Gathering decks. Come find your next idea here!</p>
-                        <p className="welcome-descript subtext">Click our logo on the right to get started</p>
+                        <p className="welcome-descript">Discover, Create, Store, and Fine-Tune your Magic the Gathering collection. Come find your next idea here!</p>
                     </div>
 
                     <div className="col-4">
@@ -27,9 +26,9 @@ const Home = (props: any) => {
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+
+            <DeckExplorer />
 
             <footer className="footer-copyright">
                 <div className="footer-copyright-text">

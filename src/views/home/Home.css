@@ -7,7 +7,7 @@
 }
 
 .background-wallpaper {
-    background-image: url("../../../images/jumbotron2.jpg");
+    background-image: url("../../../images/jumbotron3.jpg");
     height: 120vh;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,10 +16,11 @@
 }
 
 .home-container-text {
-    margin-top: 200px;
     min-width: 50%;
     border: 2px solid WHITE;
-    padding: 10px;
+    margin-top: 150px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     background-image: linear-gradient(rgba(255, 255, 255, 0.93),
             rgba(255, 255, 255, 0.93));
 }

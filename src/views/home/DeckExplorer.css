@@ -1,0 +1,19 @@
+.commanderPortrait {
+    width: 350px;
+    height: 170px;
+    object-fit: none;
+    object-position: 20% 20%;
+}
+
+.preview-card {
+    border: 2px solid black;
+    border-radius: 12px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.93),
+            rgba(255, 255, 255, 0.93));
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.deck-explorer {
+    margin-top: 75px;
+}
