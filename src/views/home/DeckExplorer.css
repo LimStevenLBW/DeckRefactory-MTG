@@ -1,14 +1,16 @@
 .commanderPortrait {
-    width: 350px;
-    height: 170px;
-    object-fit: none;
-    object-position: 20% 20%;
+
+    max-width: 300px;
+    max-height: 175px;
+    object-fit: cover;
+    object-position: 30% 20%;
+    overflow: hidden;
 }
 
 .preview-card {
     border: 2px solid black;
     border-radius: 12px;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.93),
+    background-image: linear-gradient(rgba(28, 52, 88, 0.93),
             rgba(255, 255, 255, 0.93));
     padding-top: 10px;
     margin-bottom: 20px;
@@ -16,4 +18,39 @@
 
 .deck-explorer {
     margin-top: 75px;
+}
+
+.deckPreviewCard-black {
+    min-height: 10px;
+    list-style: none;
+    background-color: #3d3d5c;
+    border: 2px solid #3d3d5c;
+}
+
+.deckPreviewCard-white {
+    min-height: 10px;
+    list-style: none;
+    background-color: rgb(223, 203, 178);
+    border: 2px solid rgb(223, 203, 178);
+}
+
+.deckPreviewCard-red {
+    min-height: 10px;
+    list-style: none;
+    background-color: crimson;
+    border: 2px solid crimson;
+}
+
+.deckPreviewCard-blue {
+    min-height: 10px;
+    list-style: none;
+    background-color: dodgerblue;
+    border: 2px solid dodgerblue;
+}
+
+.deckPreviewCard-green {
+    min-height: 10px;
+    list-style: none;
+    background-color: green;
+    border: 2px solid green;
 }

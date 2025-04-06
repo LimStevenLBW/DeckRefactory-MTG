@@ -7,22 +7,12 @@
   min-height: 100%;
 
   background-image: url("../../../images/jumbotron3.jpg");
-  height: 120vh;
-  height: 120vh;
+  height: 150vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   /*z-index: -2;*/
-}
-
-.background-wallpaper {
-  background-image: url("../../../images/jumbotron2.jpg");
-  height: 120vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
 }
 
 /*@import 'styles/Colors.scss';

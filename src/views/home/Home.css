@@ -6,15 +6,6 @@
     width: 100%;
 }
 
-.background-wallpaper {
-    background-image: url("../../../images/jumbotron3.jpg");
-    height: 120vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
 .home-container-text {
     min-width: 50%;
     border: 2px solid WHITE;
