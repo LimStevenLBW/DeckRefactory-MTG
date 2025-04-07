@@ -1,0 +1,86 @@
+.sb-item-container {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sb-item {
+    z-index: 2;
+    cursor: pointer;
+}
+
+.sb-item:hover {
+    background-color: rgb(206, 237, 250);
+}
+
+.sb-item-info {
+    color: rgb(170, 173, 173);
+    padding: 5px;
+}
+
+.sb-item-arrow-container {
+    border-radius: 6px;
+    background-color: whitesmoke;
+    padding: 3px;
+
+    position: absolute;
+    left: -30px;
+    z-index: 1;
+}
+
+.sb-item-arrow {
+    margin-left: 2px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.sb-item-arrow:hover {
+    color: blue;
+}
+
+.sb-tooltip {
+    position: absolute;
+    display: block;
+    border-radius: 6px;
+    width: 220px;
+    background-color: black;
+    cursor: pointer;
+    font-size: 0.875rem;
+    right: -25%;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+li:hover .sb-tooltip {
+    visibility: visible;
+}
+
+.glow-anim {
+    -webkit-animation-name: glow;
+    -webkit-animation-duration: 0.75s;
+    animation-name: glow;
+    animation-duration: 0.75s;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes glow {
+    0% {}
+
+    30% {
+        @include glow-mix
+    }
+
+    100% {}
+}
+
+/* Standard syntax */
+@keyframes glow {
+    0% {}
+
+    30% {
+        @include glow-mix
+    }
+
+    100% {}
+}

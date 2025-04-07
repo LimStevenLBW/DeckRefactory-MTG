@@ -18,7 +18,11 @@ function App() {
           <Route path="/" element={<Home />}>
             {/* renders into the outlet in <Root> at "/" */}
             <Route index element={<Home />} />
+
+            <Route path="/builder" element={<Blogs />} />
           </Route>
+
+
         </Routes>
       </BrowserRouter >
     </>
