@@ -8,11 +8,11 @@ import SearchFormContainer from './SearchFormContainer';
 //import Footer from './Footer';
 
 //import Tabs from '../_common/Tabs';
-//import newDeckObj from '../../models/deck';
+//import newDeckObj from '../../models/deck';   deck: newDeckObj() in state
 
 //import * as compare from '../../utils/compare';
-import { getDate } from '../../utils/date';
-import { calcManaAvg, calcDeckColors } from '../../utils/mtgDeck';
+//import { getDate } from '../../utils/date';
+//import { calcManaAvg, calcDeckColors } from '../../utils/mtgDeck';
 //import getSum from '../../utils/sum';
 
 //import { getCards } from '../../services/falseApi';
@@ -28,7 +28,6 @@ class DeckBuilder extends Component {
         selectedGame: "mtg",
         selectedView: "cards",
         endpoint: "",
-        deck: newDeckObj(),
         queriedCards: {},
         queriedHeaders: {},
     }
@@ -71,11 +70,11 @@ class DeckBuilder extends Component {
     /**
      * Updates the deck list
      */
-    setDeckList = (deckList) => {
+    setDeckList = (deckList: any) => {
         this.setState({ deckList });
     }
 
-    updateCounts = (deck) => {
+    updateCounts = (deck: any) => {
         /*
         //Calculate deck count values
         deck.info.mainCnt = getSum(deck.list.main);
@@ -89,7 +88,9 @@ class DeckBuilder extends Component {
      * Add a new card into a named section of the decklist, defaulting to main
      * If a duplicate exists, quantity is updated instead, Deck state is updated to trigger a re-render
      */
-    addNewCard = (newCard, listName = 'main') => {
+    addNewCard = () => {
+        /*
+        (newCard, listName = 'main')
         let deck = this.state.deck;
         const workingList = deck.list[listName];
 
@@ -107,37 +108,44 @@ class DeckBuilder extends Component {
 
         deck = this.updateCounts(deck);
         this.setState({ deck });
+        */
     }
 
     /**
      * Removes a card from a named section of the decklist, but if the card has
      * a quantity value above 1, its quantity value is only decremented
      */
-    removeCard = (event, selectedCard, listName) => {
-        if (event) event.preventDefault();
-        let deck = this.state.deck;
-        const workingList = deck.list[listName];
+    removeCard = () => {
+        /*
+       (event, selectedCard, listName)
+      
+       if (event) event.preventDefault();
+       let deck = this.state.deck;
+       const workingList = deck.list[listName];
 
-        //Check if more than one copy exists, if so, just decrement the counter instead of removing
-        const duplicate = this.checkForDuplicate(selectedCard, workingList);
-        if (duplicate !== false) {
-            const duplicateAmount = workingList[duplicate].quantity;
+       //Check if more than one copy exists, if so, just decrement the counter instead of removing
+       const duplicate = this.checkForDuplicate(selectedCard, workingList);
+       if (duplicate !== false) {
+           const duplicateAmount = workingList[duplicate].quantity;
 
-            if (duplicateAmount > 1) workingList[duplicate].quantity--;
-            else if (duplicateAmount === 1) workingList.splice(workingList.indexOf(selectedCard), 1);
-            else console.log("an error has occurred with removeCard")
-        }
+           if (duplicateAmount > 1) workingList[duplicate].quantity--;
+           else if (duplicateAmount === 1) workingList.splice(workingList.indexOf(selectedCard), 1);
+           else console.log("an error has occurred with removeCard")
+       }
 
-        deck.list[listName] = workingList;
+       deck.list[listName] = workingList;
 
-        deck = this.updateCounts(deck);
-        this.setState({ deck });
+       deck = this.updateCounts(deck);
+       this.setState({ deck });
+       */
     }
 
     /**
      * 
      */
-    shiftCardHandler = (event, selectedCard, listName, shiftUp = true) => {
+    shiftCardHandler = () => {
+        /*
+        (event, selectedCard, listName, shiftUp = true)
         let deck = this.state.deck;
         let nextListName;
         switch (listName) {
@@ -180,20 +188,23 @@ class DeckBuilder extends Component {
             this.removeCard(event, selectedCard, listName);
             this.addNewCard(selectedCard, nextListName);
         }
-
+        */
     }
 
     /**
      * Examine each card in a provided list and returns the index of the duplicate if it exists
      * Currently only examines based on name
-     */
-    checkForDuplicate = (newCard, list) => {
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].name === newCard.name) {
-                return i;
+    */
+    checkForDuplicate = () => {
+        /*
+        (newCard, list)
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].name === newCard.name) {
+                    return i;
+                }
             }
-        }
-        return false;
+            return false;
+            */
     }
 
     /**
@@ -205,12 +216,12 @@ class DeckBuilder extends Component {
         const deck = this.state.deck;
         const user = this.props.user;
         const colorObj = calcDeckColors(deck); //Get color information
-
+    
         deck.info.cmc = calcManaAvg(deck); //Get average mana cost
         deck.info.colors = colorObj.colors; //Get List of colors
         deck.info.colorIdentity = colorObj.colorIdentity //Get color scheme name
         deck.info.lastUpdated = getDate(); //Get date of update
-
+    
         //Update the state of the deck
         this.setState({ deck }, () => {
             dataApi.save(deck, user);
@@ -222,31 +233,36 @@ class DeckBuilder extends Component {
      * Sort the current decklist based on the listed names
      */
     onSortAZ = () => {
+        /*
         const { deck } = this.state;
         deck.list.main.sort(compare.alpha);
         deck.list.side.sort(compare.alpha);
         deck.list.misc.sort(compare.alpha);
         this.setState({ deck });
+        */
     }
 
     /**
      * Sort the current decklist based on the converted mana costs
      */
     onSortMana = () => {
+        /*
         const { deck } = this.state;
         deck.list.main.sort(compare.cmc);
         deck.list.side.sort(compare.cmc);
         deck.list.misc.sort(compare.cmc);
         this.setState({ deck });
+        */
     }
 
-    addBasicLand = (land) => {
+    addBasicLand = (land: any) => {
+        /*
         let deck = this.state.deck;
         const workingList = deck.list['main'];
         const lands = getLands().cards;
-
+ 
         const newCard = lands.filter(cardObj => cardObj.name === land)[0];
-
+ 
         //Check if the card already exists
         const duplicate = this.checkForDuplicate(newCard, workingList);
         if (duplicate !== false) {
@@ -256,12 +272,13 @@ class DeckBuilder extends Component {
             newCard["quantity"] = 1;
             deck.list.main.push(newCard);
         }
-
+ 
         deck = this.updateCounts(deck);
         this.setState({ deck });
+        */
     }
 
-    onSelectedView = (viewName) => {
+    onSelectedView = (viewName: any) => {
         if (viewName === "analysis") {
             this.setState({ selectedView: viewName })
         }
@@ -278,10 +295,22 @@ class DeckBuilder extends Component {
     }
 
     render() {
-        const { selectedGame, queriedCards, queriedHeaders, deck, selectedView, endpoint } = this.state;
-        const { list: deckList } = deck;
-        const { info: deckInfo } = deck;
+        //const { selectedGame, queriedCards, queriedHeaders, deck, selectedView, endpoint } = this.state;
+        //const { list: deckList } = deck;
+        //const { info: deckInfo } = deck;
 
+
+        return
+        (<>
+            <div className="container-fluid game-header mb-2">
+                <SearchFormContainer
+                    updateQueriedCards={this.updateQueriedCards}
+                    addBasicLand={this.addBasicLand}
+                />
+            </div>
+        </>);
+
+        /*
         return (
             <React.Fragment>
                 <div className="container-fluid game-header mb-2">
@@ -290,7 +319,7 @@ class DeckBuilder extends Component {
                         addBasicLand={this.addBasicLand}
                     />
                 </div>
-
+ 
                 <div className="container-fluid cf-spacing mb-2">
                     <div className="row mb-2">
                         <div className="col-4">
@@ -300,7 +329,7 @@ class DeckBuilder extends Component {
                                 onSortMana={this.onSortMana}
                             />
                         </div>
-
+ 
                         <div className="col-8">
                             <Tabs
                                 onViewSelect={this.onSelectedView}
@@ -308,7 +337,7 @@ class DeckBuilder extends Component {
                             />
                         </div>
                     </div>
-
+ 
                     <div className="row">
                         <div className="col-4">
                             <DeckSideBar
@@ -320,9 +349,9 @@ class DeckBuilder extends Component {
                                 onShiftClick={this.shiftCardHandler}
                             />
                         </div>
-
+ 
                         <div className="col-8 pl-1 pr-1">
-
+ 
                             {this.state.selectedView === 'cards' ?
                                 <CardBrowser
                                     selectedGame={selectedGame}
@@ -331,20 +360,22 @@ class DeckBuilder extends Component {
                                     headersList={queriedHeaders}
                                     addNewCard={this.addNewCard}
                                     updateQueriedCards={this.updateQueriedCards}
-
+ 
                                 /> :
                                 <ChartBrowser
                                     deckList={deckList.main} //Only main deck is analyzed
                                 />}
-
+ 
                         </div>
                     </div>
                 </div>
-
+ 
                 <Footer />
-
+ 
             </React.Fragment>
+           
         );
+         */
     }
 }
 

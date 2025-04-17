@@ -7,6 +7,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import DeckBuilder from './views/builder/DeckBuilder';
+
 
 function App() {
   return (
@@ -18,10 +20,9 @@ function App() {
           <Route path="/" element={<Home />}>
             {/* renders into the outlet in <Root> at "/" */}
             <Route index element={<Home />} />
-
-            <Route path="/builder" element={<Blogs />} />
           </Route>
 
+          <Route path="/builder" element={<DeckBuilder />} />
 
         </Routes>
       </BrowserRouter >
