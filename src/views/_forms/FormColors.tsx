@@ -7,40 +7,49 @@ import manaG from '../../images/mana/G.svg';
 import manaW from '../../images/mana/W.svg';
 import './FormColors.css'
 
-interface Color {
+// Define type for the inner dictionary object
+interface ManaSymbol {
     queryName: string;
     imageSrc: string;
-    active: boolean;
+    isActive: boolean;
 }
 
+
+// Define type for the outer dictionary (record)
+type ManaSymbolsDict = Record<string, ManaSymbol>;
+
 const FormColors: React.FC = () => {
-    const [colors, setColors] = useState<Color[]>([
-        { queryName: 'colorless', imageSrc: manaC, active: false },
-        { queryName: 'white', imageSrc: manaW, active: false },
-        { queryName: 'black', imageSrc: manaB, active: false },
-        { queryName: 'green', imageSrc: manaG, active: false },
-        { queryName: 'red', imageSrc: manaR, active: false },
-        { queryName: 'blue', imageSrc: manaU, active: false }
-    ]);
+
+    const [manaSymbols, setManaSymbols] = useState<ManaSymbolsDict>({
+        colorless: { queryName: 'colorless', imageSrc: manaC, isActive: false },
+        white: { queryName: 'white', imageSrc: manaW, isActive: false },
+        black: { queryName: 'black', imageSrc: manaB, isActive: false },
+        green: { queryName: 'green', imageSrc: manaG, isActive: false },
+        red: { queryName: 'red', imageSrc: manaR, isActive: false },
+        blue: { queryName: 'blue', imageSrc: manaU, isActive: false }
+    });
+
 
     /**
      * Disables or Enables a color, 
      * Updates the state and returns a colorlist to SearchFormContainer
      */
-    const toggleColor = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        const name = (e.currentTarget.name);
-        let color = this.state[name];
-        color.active = !color.active; //Toggle color active state
+    const toggleColor = (color: string) => {
+        //e.preventDefault();
+        //const name = (e.currentTarget.name);
+        let manaColor = manaSymbols[color];
+        manaColor.isActive = !manaColor.isActive; //Toggle color active state
 
+        /*
         let colorList = [];
         this.srcList.forEach((element) => { //Fills an array with colors from the srcList
             if (element.active) colorList.push(element.queryName);
         });
-
+    
         this.setState({ [name]: color }, () => {
             this.props.handleColors(colorList); //Callback to handleColors
         });
+        */
     };
 
     /*
@@ -54,28 +63,27 @@ const FormColors: React.FC = () => {
             }
         }
             */
+    return (
+        <React.Fragment>
 
-    render() {
-        return (
-            <React.Fragment>
-                {this.srcList.map(color => {
-                    return (
-                        <button
-                            key={color.queryName}
-                            name={color.queryName}
-                            onClick={(e) => toggleColor(e)}>
+            {Object.entries(manaSymbols).map(([key, symbol]) => (
+                <button
+                    key={key}
+                    onClick={() => toggleColor(key)}
+                    className={`mana-button ${symbol.isActive ? 'active' : ''}`}
+                >
+                    <img
+                        className={symbol.isActive ? "mana-color-select" : "mana-color-select-disabled"}
+                        src={symbol.imageSrc}
+                        alt={symbol.queryName}
+                        title={symbol.queryName}
+                    />
+                </button>
+            ))}
 
-                            <img
-                                className={color.active ? "mana-color-select" : "mana-color-select-disabled"}
-                                src={color.image}
-                                alt="test">
-                            </img>
-                        </button>
-                    );
-                })}
-            </React.Fragment>
-        );
-    }
+        </React.Fragment>
+    );
+
 }
 
 export default FormColors;
