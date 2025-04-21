@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import SearchFormContainer from './SearchFormContainer';
 //import CardBrowser from './CardBrowser';
@@ -22,59 +22,65 @@ import SearchFormContainer from './SearchFormContainer';
 import './DeckBuilder.css';
 
 
-class DeckBuilder extends Component {
+type BuilderState = {
+    selectedGame: string;
+    selectedView: string;
+    endpoint: string;
+    queriedCards: {};
+    queriedHeaders: {};
+}
 
-    state = {
+const DeckBuilder: React.FC = () => {
+
+    const [builderState, setBuilderState] = useState<BuilderState>({
         selectedGame: "mtg",
         selectedView: "cards",
         endpoint: "",
         queriedCards: {},
-        queriedHeaders: {},
-    }
-
-    componentDidMount() {
-        /*
-        if (!sessionStorage.length) {
-            //If storage is empty, use defaults
-            const { cards: queriedCards } = getCards();
-            this.setState({ queriedCards });
-        }
-        else {
-            //Get the cardbrowser gallery state from session storage
-            const currentPageNum = parseInt(sessionStorage.getItem("page"));
-            const tableString = sessionStorage.getItem(`table#${currentPageNum}`)
-            const queriedCards = JSON.parse(tableString);
-            this.setState({ queriedCards });
-        }
-
-        try {
-            //Load a saved deck from local storage
-            const data = localStorage.getItem('deck');
-            const endpoint = sessionStorage.getItem('baseQuery'); //Page URL for pagination if it exists
-            const deck = JSON.parse(data);
-            if (deck) this.setState({ deck, endpoint });
-        }
-        catch (ex) { }
-        */
-    }
+        queriedHeaders: {}
+    });
+    /*
+          //COMPONENT DID MOUNT
+           if (!sessionStorage.length) {
+               //If storage is empty, use defaults
+               const { cards: queriedCards } = getCards();
+               this.setState({ queriedCards });
+           }
+           else {
+               //Get the cardbrowser gallery state from session storage
+               const currentPageNum = parseInt(sessionStorage.getItem("page"));
+               const tableString = sessionStorage.getItem(`table#${currentPageNum}`)
+               const queriedCards = JSON.parse(tableString);
+               this.setState({ queriedCards });
+           }
+   
+           try {
+               //Load a saved deck from local storage
+               const data = localStorage.getItem('deck');
+               const endpoint = sessionStorage.getItem('baseQuery'); //Page URL for pagination if it exists
+               const deck = JSON.parse(data);
+               if (deck) this.setState({ deck, endpoint });
+           }
+           catch (ex) { }
+           */
 
     /**
      * Updates the current card browser list and update state
-    
+     
     updateQueriedCards = (queriedCards, queriedHeaders, endpoint) => {
         if (endpoint !== null) this.setState({ queriedCards, queriedHeaders, endpoint });
         else this.setState({ queriedCards, queriedHeaders })
     }
- */
+    */
 
     /**
      * Updates the deck list
      */
-    setDeckList = (deckList: any) => {
+    const setDeckList = (deckList: any) => {
         this.setState({ deckList });
     }
 
-    updateCounts = (deck: any) => {
+    const updateCounts = (deck: any) => {
         /*
         //Calculate deck count values
         deck.info.mainCnt = getSum(deck.list.main);
@@ -88,12 +94,12 @@ class DeckBuilder extends Component {
      * Add a new card into a named section of the decklist, defaulting to main
      * If a duplicate exists, quantity is updated instead, Deck state is updated to trigger a re-render
      */
-    addNewCard = () => {
+    const addNewCard = () => {
         /*
         (newCard, listName = 'main')
         let deck = this.state.deck;
         const workingList = deck.list[listName];
-
+    
         //Check if the card already exists
         const duplicate = this.checkForDuplicate(newCard, workingList)
         if (duplicate !== false) {
@@ -103,9 +109,9 @@ class DeckBuilder extends Component {
             newCard["quantity"] = 1;
             workingList.push(newCard);
         }
-
+    
         deck.list[listName] = workingList;
-
+    
         deck = this.updateCounts(deck);
         this.setState({ deck });
         */
@@ -115,26 +121,26 @@ class DeckBuilder extends Component {
      * Removes a card from a named section of the decklist, but if the card has
      * a quantity value above 1, its quantity value is only decremented
      */
-    removeCard = () => {
+    const removeCard = () => {
         /*
        (event, selectedCard, listName)
       
        if (event) event.preventDefault();
        let deck = this.state.deck;
        const workingList = deck.list[listName];
-
+    
        //Check if more than one copy exists, if so, just decrement the counter instead of removing
        const duplicate = this.checkForDuplicate(selectedCard, workingList);
        if (duplicate !== false) {
            const duplicateAmount = workingList[duplicate].quantity;
-
+    
            if (duplicateAmount > 1) workingList[duplicate].quantity--;
            else if (duplicateAmount === 1) workingList.splice(workingList.indexOf(selectedCard), 1);
            else console.log("an error has occurred with removeCard")
        }
-
+    
        deck.list[listName] = workingList;
-
+    
        deck = this.updateCounts(deck);
        this.setState({ deck });
        */
@@ -143,7 +149,7 @@ class DeckBuilder extends Component {
     /**
      * 
      */
-    shiftCardHandler = () => {
+    const shiftCardHandler = () => {
         /*
         (event, selectedCard, listName, shiftUp = true)
         let deck = this.state.deck;
@@ -165,20 +171,20 @@ class DeckBuilder extends Component {
                 nextListName = listName; //Don't move it
                 console.error("Error occurred while editing deck list");
         }
-
+    
         const workingList = deck.list[nextListName];
         const prevList = deck.list[listName];
-
+    
         if (event.shiftKey) { //If key shift is held, remove card regardless of quantity
             const duplicate = this.checkForDuplicate(selectedCard, workingList);
-
+    
             if (duplicate !== false) {
                 workingList[duplicate].quantity += selectedCard.quantity; //Add the quantities together 
             }
             else {
                 workingList.push(selectedCard); //Move the card into the list
             }
-
+    
             prevList.splice(prevList.indexOf(selectedCard), 1); //Remove it from the previous list
             deck.list[nextListName] = workingList;
             deck = this.updateCounts(deck);
@@ -195,7 +201,7 @@ class DeckBuilder extends Component {
      * Examine each card in a provided list and returns the index of the duplicate if it exists
      * Currently only examines based on name
     */
-    checkForDuplicate = () => {
+    const checkForDuplicate = () => {
         /*
         (newCard, list)
             for (let i = 0; i < list.length; i++) {
@@ -211,17 +217,17 @@ class DeckBuilder extends Component {
      * Calculates certain deck properties and sets them
      * Calls save api function
      */
-    onSaveDeck = () => {
+    const onSaveDeck = () => {
         /*
         const deck = this.state.deck;
         const user = this.props.user;
         const colorObj = calcDeckColors(deck); //Get color information
-    
+     
         deck.info.cmc = calcManaAvg(deck); //Get average mana cost
         deck.info.colors = colorObj.colors; //Get List of colors
         deck.info.colorIdentity = colorObj.colorIdentity //Get color scheme name
         deck.info.lastUpdated = getDate(); //Get date of update
-    
+     
         //Update the state of the deck
         this.setState({ deck }, () => {
             dataApi.save(deck, user);
@@ -232,7 +238,7 @@ class DeckBuilder extends Component {
     /**
      * Sort the current decklist based on the listed names
      */
-    onSortAZ = () => {
+    const onSortAZ = () => {
         /*
         const { deck } = this.state;
         deck.list.main.sort(compare.alpha);
@@ -245,7 +251,7 @@ class DeckBuilder extends Component {
     /**
      * Sort the current decklist based on the converted mana costs
      */
-    onSortMana = () => {
+    const onSortMana = () => {
         /*
         const { deck } = this.state;
         deck.list.main.sort(compare.cmc);
@@ -255,14 +261,14 @@ class DeckBuilder extends Component {
         */
     }
 
-    addBasicLand = (land: any) => {
+    const addBasicLand = (land: any) => {
         /*
         let deck = this.state.deck;
         const workingList = deck.list['main'];
         const lands = getLands().cards;
- 
+     
         const newCard = lands.filter(cardObj => cardObj.name === land)[0];
- 
+     
         //Check if the card already exists
         const duplicate = this.checkForDuplicate(newCard, workingList);
         if (duplicate !== false) {
@@ -272,111 +278,112 @@ class DeckBuilder extends Component {
             newCard["quantity"] = 1;
             deck.list.main.push(newCard);
         }
- 
+     
         deck = this.updateCounts(deck);
         this.setState({ deck });
         */
     }
 
-    onSelectedView = (viewName: any) => {
+    const onSelectedView = (viewName: string) => {
         if (viewName === "analysis") {
-            this.setState({ selectedView: viewName })
+            setBuilderState(prev => ({
+                ...prev,
+                ["selectedView"]: viewName // Dynamically updates the property matching `name`
+            }));
         }
         else {
-            this.setState({ selectedView: viewName })
+            // this.setState({ selectedView: viewName })
         }
     }
 
     /**
      * Temporarily persist search results, settings, etc for convenience
      */
-    cacheSessionData = () => {
+    const cacheSessionData = () => {
 
     }
 
-    render() {
-        //const { selectedGame, queriedCards, queriedHeaders, deck, selectedView, endpoint } = this.state;
-        //const { list: deckList } = deck;
-        //const { info: deckInfo } = deck;
+    //const { selectedGame, queriedCards, queriedHeaders, deck, selectedView, endpoint } = this.state;
+    //const { list: deckList } = deck;
+    //const { info: deckInfo } = deck;
 
 
-        return
-        (<>
-            <div className="container-fluid game-header mb-2">
-                <SearchFormContainer
-                    updateQueriedCards={this.updateQueriedCards}
-                    addBasicLand={this.addBasicLand}
-                />
-            </div>
-        </>);
-
-        /*
-        return (
-            <React.Fragment>
-                <div className="container-fluid game-header mb-2">
-                    <SearchFormContainer
-                        updateQueriedCards={this.updateQueriedCards}
-                        addBasicLand={this.addBasicLand}
+    return (<>
+        <div className="container-fluid game-header mb-2">
+            <SearchFormContainer
+                updateQueriedCards={() => { }}
+                addBasicLand={() => { }}
+            />
+        </div>
+    </>);
+}
+/*
+return (
+    <React.Fragment>
+        <div className="container-fluid game-header mb-2">
+            <SearchFormContainer
+                updateQueriedCards={this.updateQueriedCards}
+                addBasicLand={this.addBasicLand}
+            />
+        </div>
+ 
+        <div className="container-fluid cf-spacing mb-2">
+            <div className="row mb-2">
+                <div className="col-4">
+                    <SortButtons
+                        onSaveDeck={this.onSaveDeck}
+                        onSortAZ={this.onSortAZ}
+                        onSortMana={this.onSortMana}
                     />
                 </div>
  
-                <div className="container-fluid cf-spacing mb-2">
-                    <div className="row mb-2">
-                        <div className="col-4">
-                            <SortButtons
-                                onSaveDeck={this.onSaveDeck}
-                                onSortAZ={this.onSortAZ}
-                                onSortMana={this.onSortMana}
-                            />
-                        </div>
+                <div className="col-8">
+                    <Tabs
+                        onViewSelect={this.onSelectedView}
+                        selectedView={selectedView}
+                    />
+                </div>
+            </div>
  
-                        <div className="col-8">
-                            <Tabs
-                                onViewSelect={this.onSelectedView}
-                                selectedView={selectedView}
-                            />
-                        </div>
-                    </div>
- 
-                    <div className="row">
-                        <div className="col-4">
-                            <DeckSideBar
-                                deckList={deckList}
-                                deckInfo={deckInfo}
-                                textProperty="name"
-                                onLeftSelect={this.addNewCard}
-                                onRightSelect={this.removeCard}
-                                onShiftClick={this.shiftCardHandler}
-                            />
-                        </div>
- 
-                        <div className="col-8 pl-1 pr-1">
- 
-                            {this.state.selectedView === 'cards' ?
-                                <CardBrowser
-                                    selectedGame={selectedGame}
-                                    cardList={queriedCards}
-                                    endpoint={endpoint}
-                                    headersList={queriedHeaders}
-                                    addNewCard={this.addNewCard}
-                                    updateQueriedCards={this.updateQueriedCards}
- 
-                                /> :
-                                <ChartBrowser
-                                    deckList={deckList.main} //Only main deck is analyzed
-                                />}
- 
-                        </div>
-                    </div>
+            <div className="row">
+                <div className="col-4">
+                    <DeckSideBar
+                        deckList={deckList}
+                        deckInfo={deckInfo}
+                        textProperty="name"
+                        onLeftSelect={this.addNewCard}
+                        onRightSelect={this.removeCard}
+                        onShiftClick={this.shiftCardHandler}
+                    />
                 </div>
  
-                <Footer />
+                <div className="col-8 pl-1 pr-1">
  
-            </React.Fragment>
-           
-        );
-         */
-    }
-}
+                    {this.state.selectedView === 'cards' ?
+                        <CardBrowser
+                            selectedGame={selectedGame}
+                            cardList={queriedCards}
+                            endpoint={endpoint}
+                            headersList={queriedHeaders}
+                            addNewCard={this.addNewCard}
+                            updateQueriedCards={this.updateQueriedCards}
+ 
+                        /> :
+                        <ChartBrowser
+                            deckList={deckList.main} //Only main deck is analyzed
+                        />}
+ 
+                </div>
+            </div>
+        </div>
+ 
+        <Footer />
+ 
+    </React.Fragment>
+   
+);
+ */
+
+
 
 export default DeckBuilder;

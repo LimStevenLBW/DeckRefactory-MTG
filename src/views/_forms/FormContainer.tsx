@@ -1,11 +1,13 @@
 import { Component } from 'react';
-import Joi from 'joi';
-
+//import Joi from 'joi';
+/*
 /**
- * Generic Form Component, contains generic functionality for form management
- * Extend it to render displays of forms and setup error handling with Joi
- */
+* Generic Form Component, contains generic functionality for form management
+* Extend it to render displays of forms and setup error handling with Joi
+*/
+
 class FormContainer extends Component {
+
     state = {
         data: {},
         errors: {}, //When errors object is empty, the forms are fine

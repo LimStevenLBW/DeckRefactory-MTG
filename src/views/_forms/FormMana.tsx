@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import manaC from '../../images/mana/C.svg';
-import manaB from '../../images/mana/B.svg';
-import manaU from '../../images/mana/U.svg';
-import manaR from '../../images/mana/R.svg';
-import manaG from '../../images/mana/G.svg';
-import manaW from '../../images/mana/W.svg';
-import './FormColors.css'
+import manaC from '../../../images/mana/C.svg';
+import manaB from '../../../images/mana/B.svg';
+import manaU from '../../../images/mana/U.svg';
+import manaR from '../../../images/mana/R.svg';
+import manaG from '../../../images/mana/G.svg';
+import manaW from '../../../images/mana/W.svg';
+import './FormMana.css'
 
 // Define type for the inner dictionary object
 interface ManaSymbol {
@@ -14,11 +14,10 @@ interface ManaSymbol {
     isActive: boolean;
 }
 
-
 // Define type for the outer dictionary (record)
 type ManaSymbolsDict = Record<string, ManaSymbol>;
 
-const FormColors: React.FC = () => {
+const FormMana: React.FC = () => {
 
     const [manaSymbols, setManaSymbols] = useState<ManaSymbolsDict>({
         colorless: { queryName: 'colorless', imageSrc: manaC, isActive: false },
@@ -86,4 +85,4 @@ const FormColors: React.FC = () => {
 
 }
 
-export default FormColors;
+export default FormMana;
