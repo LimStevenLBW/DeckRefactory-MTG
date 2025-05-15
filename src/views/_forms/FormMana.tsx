@@ -6,6 +6,11 @@ import manaR from '../../../images/mana/R.svg';
 import manaG from '../../../images/mana/G.svg';
 import manaW from '../../../images/mana/W.svg';
 import './FormMana.css'
+import { getColorIdentity } from './../../utils/mtgDeck';
+
+interface Props {
+    ReturnColorList: (value: string[]) => void;
+}
 
 // Define type for the inner dictionary object
 interface ManaSymbol {
@@ -17,7 +22,7 @@ interface ManaSymbol {
 // Define type for the outer dictionary (record)
 type ManaSymbolsDict = Record<string, ManaSymbol>;
 
-const FormMana: React.FC = () => {
+const FormMana: React.FC<Props> = ({ ReturnColorList }) => {
 
     const [manaSymbols, setManaSymbols] = useState<ManaSymbolsDict>({
         colorless: { queryName: 'colorless', imageSrc: manaC, isActive: false },
@@ -30,26 +35,31 @@ const FormMana: React.FC = () => {
 
 
     /**
-     * Disables or Enables a color, 
+     * Disables or Enables a mana color, 
      * Updates the state and returns a colorlist to SearchFormContainer
      */
     const toggleColor = (color: string) => {
         //e.preventDefault();
         //const name = (e.currentTarget.name);
-        let manaColor = manaSymbols[color];
-        manaColor.isActive = !manaColor.isActive; //Toggle color active state
+        // const manaColor = manaSymbols[color];
+        //manaColor.isActive = !manaColor.isActive; //Toggle color active state
 
-        /*
-        let colorList = [];
-        this.srcList.forEach((element) => { //Fills an array with colors from the srcList
-            if (element.active) colorList.push(element.queryName);
+        setManaSymbols(prev => ({
+            ...prev,
+            [color]: { ...prev[color], isActive: !prev[color].isActive },
+        }));
+
+        //Update list of selected mana colors
+        let colorList: string[] = [];
+
+        Object.values(manaSymbols).forEach((value) => {
+            if (value.isActive) colorList.push(value.queryName);
         });
-    
-        this.setState({ [name]: color }, () => {
-            this.props.handleColors(colorList); //Callback to handleColors
-        });
-        */
-    };
+
+        ReturnColorList(colorList);
+
+    }
+
 
     /*
         srcList = [];

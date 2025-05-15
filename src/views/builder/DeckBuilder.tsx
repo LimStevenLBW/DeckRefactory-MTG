@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import SearchFormContainer from './SearchFormContainer';
 //import CardBrowser from './CardBrowser';
 //import ChartBrowser from './ChartBrowser';
-//import DeckSideBar from './DeckSideBar';
-//import SortButtons from './SortButtons';
+import BuilderSideBar from './BuilderSideBar';
+import SortButtons from './SortButtons';
 //import Footer from './Footer';
 
-//import Tabs from '../_common/Tabs';
-//import newDeckObj from '../../models/deck';   deck: newDeckObj() in state
+import Tabs from '../_common/Tabs';
+
 
 //import * as compare from '../../utils/compare';
 //import { getDate } from '../../utils/date';
@@ -20,9 +20,11 @@ import SearchFormContainer from './SearchFormContainer';
 //import dataApi from '../../services/dataApi';
 
 import './DeckBuilder.css';
+import { Deck, GetEmptyDeck } from '../../models/deck';
 
 
 type BuilderState = {
+    deck: Deck;
     selectedGame: string;
     selectedView: string;
     endpoint: string;
@@ -33,12 +35,14 @@ type BuilderState = {
 const DeckBuilder: React.FC = () => {
 
     const [builderState, setBuilderState] = useState<BuilderState>({
+        deck: GetEmptyDeck(),
         selectedGame: "mtg",
-        selectedView: "cards",
+        selectedView: "View Card Explorer",
         endpoint: "",
         queriedCards: {},
         queriedHeaders: {}
     });
+
     /*
           //COMPONENT DID MOUNT
            if (!sessionStorage.length) {
@@ -284,8 +288,8 @@ const DeckBuilder: React.FC = () => {
         */
     }
 
-    const onSelectedView = (viewName: string) => {
-        if (viewName === "analysis") {
+    const onViewSelect = (viewName: string) => {
+        if (viewName === "Deck Analysis") {
             setBuilderState(prev => ({
                 ...prev,
                 ["selectedView"]: viewName // Dynamically updates the property matching `name`
@@ -304,85 +308,56 @@ const DeckBuilder: React.FC = () => {
     }
 
     //const { selectedGame, queriedCards, queriedHeaders, deck, selectedView, endpoint } = this.state;
-    //const { list: deckList } = deck;
-    //const { info: deckInfo } = deck;
+    const { list: deckList } = builderState.deck;
+    const { info: deckInfo } = builderState.deck;
 
 
-    return (<>
-        <div className="container-fluid game-header mb-2">
-            <SearchFormContainer
-                updateQueriedCards={() => { }}
-                addBasicLand={() => { }}
-            />
-        </div>
-    </>);
+    return (
+        <>
+            <div className="container-fluid game-header mb-2">
+                <SearchFormContainer
+                    updateQueriedCards={() => { }}
+                    addBasicLand={() => { }}
+                />
+            </div>
+
+            <div className="container-fluid cf-spacing mb-2">
+                <div className="row mb-2">
+                    <div className="col-4">
+                        <SortButtons
+                            onSaveDeck={() => { }}
+                            onSortAZ={() => { }}
+                            onSortMana={() => { }}
+                        />
+                    </div>
+
+                    <div className="col-8">
+                        <Tabs
+                            onViewSelect={onViewSelect}
+                            selectedView={builderState.selectedView}
+                            view1={"Deck Analysis"}
+                            view2={"View Card Explorer"}
+                        />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-4">
+                        <BuilderSideBar
+                            deckList={deckList}
+                            deckInfo={deckInfo}
+                            textProperty="name"
+                            onLeftSelect={addNewCard}
+                            onRightSelect={removeCard}
+                            onShiftClick={shiftCardHandler}
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </>
+    );
 }
-/*
-return (
-    <React.Fragment>
-        <div className="container-fluid game-header mb-2">
-            <SearchFormContainer
-                updateQueriedCards={this.updateQueriedCards}
-                addBasicLand={this.addBasicLand}
-            />
-        </div>
- 
-        <div className="container-fluid cf-spacing mb-2">
-            <div className="row mb-2">
-                <div className="col-4">
-                    <SortButtons
-                        onSaveDeck={this.onSaveDeck}
-                        onSortAZ={this.onSortAZ}
-                        onSortMana={this.onSortMana}
-                    />
-                </div>
- 
-                <div className="col-8">
-                    <Tabs
-                        onViewSelect={this.onSelectedView}
-                        selectedView={selectedView}
-                    />
-                </div>
-            </div>
- 
-            <div className="row">
-                <div className="col-4">
-                    <DeckSideBar
-                        deckList={deckList}
-                        deckInfo={deckInfo}
-                        textProperty="name"
-                        onLeftSelect={this.addNewCard}
-                        onRightSelect={this.removeCard}
-                        onShiftClick={this.shiftCardHandler}
-                    />
-                </div>
- 
-                <div className="col-8 pl-1 pr-1">
- 
-                    {this.state.selectedView === 'cards' ?
-                        <CardBrowser
-                            selectedGame={selectedGame}
-                            cardList={queriedCards}
-                            endpoint={endpoint}
-                            headersList={queriedHeaders}
-                            addNewCard={this.addNewCard}
-                            updateQueriedCards={this.updateQueriedCards}
- 
-                        /> :
-                        <ChartBrowser
-                            deckList={deckList.main} //Only main deck is analyzed
-                        />}
- 
-                </div>
-            </div>
-        </div>
- 
-        <Footer />
- 
-    </React.Fragment>
-   
-);
- */
 
 
 

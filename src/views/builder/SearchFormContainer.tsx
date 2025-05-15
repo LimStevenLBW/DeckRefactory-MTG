@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import FormContainer from '../_forms/FormContainer';
 import FormSearchBar from '../_forms/FormSearchBar';
 import FormSelect from '../_forms/FormSelect';
-import FormColors from '../_forms/FormMana';
 import ButtonDropDown from '../_common/ButtonDropDown';
 import FormMana from '../_forms/FormMana';
 
@@ -21,21 +20,21 @@ type SearchData = {
     type: string;
     cmc: string;
     query: string;
-    colors: string[];
+    manaColors: string[];
 }
 
 /**
  * Extends Form Container, renders forms for initiating an advanced search.
  */
 
-const SearchFormContainer: React.FC<Props> = () => {
+const SearchFormContainer: React.FC<Props> = ({ updateQueriedCards, addBasicLand }) => {
 
     const [searchData, setSearchData] = useState<SearchData>({
         format: "",
         type: "",
         cmc: "",
         query: "",
-        colors: []
+        manaColors: []
     });
 
     const [isLoadingData, setIsLoadingData] = useState(false);
@@ -43,15 +42,15 @@ const SearchFormContainer: React.FC<Props> = () => {
     /*
      * Assembles a string to store active search filters
      */
-    const getSearchDescription = () => {
+    const GetSearchDescription = () => {
         //Destructures the searchData dictionary, ignoring query
-        const { format, type, cmc, colors } = searchData
+        const { format, type, cmc, manaColors } = searchData
         let description = "";
 
         if (format) description = `${description}${format},`;
         if (type) description = `${description}${type},`;
         if (cmc) description = `${description} Cost: ${cmc},`;
-        if (colors) description = `${description}${colors}`;
+        if (manaColors) description = `${description}${manaColors}`;
 
         if (description === "") description += "None selected"
         return description;
@@ -77,21 +76,22 @@ const SearchFormContainer: React.FC<Props> = () => {
 
         setSearchData(prev => ({
             ...prev,
-            [form.name]: form.value // Dynamically updates the property matching `name`
+            [form.name]: form.value
         }));
 
     };
 
 
-    /**
-     * Similar to UpdateSelectElementState, exclusive for color selection
-   
-    const handleColors = (colors) => {
-        const data = { ...this.state.data }
-        data.colors = colors;
-        this.setState({ data });
+    /*
+     * Update color selection for search field
+     */
+    const UpdateManaColorState = (updatedList: string[]) => {
+        setSearchData(prev => ({
+            ...prev,
+            ["manaColors"]: updatedList
+        }));
     }
-  */
+
     /*
     *
    
@@ -144,7 +144,7 @@ const SearchFormContainer: React.FC<Props> = () => {
 
     return (
         <React.Fragment>
-            <div className="form-row justify-content-center">
+            <div className="row justify-content-center">
                 <div className="col-2 pt-3">
                     <FormSelect
                         name={"format"} //used to identify form data
@@ -172,7 +172,7 @@ const SearchFormContainer: React.FC<Props> = () => {
                 <div className="col-1 pt-3">
                     <FormSelect
                         name={"cmc"} //used to identify form data
-                        label={"Mana"}
+                        label={"Select CMC"}
                         handler={UpdateSelectElementState}
                         value={searchData.cmc} //prev set value
                         options={
@@ -181,7 +181,7 @@ const SearchFormContainer: React.FC<Props> = () => {
                     </FormSelect>
                 </div>
 
-                <div className="col-4">
+                <div className="col-3">
                     <FormSearchBar
                         name={"query"}
                         onChange={UpdateInputElementState}
@@ -192,21 +192,21 @@ const SearchFormContainer: React.FC<Props> = () => {
                 </div>
             </div>
 
-            <div className="form-row justify-content-center">
-                <div className="col-4 text-right">
+            <div className="row justify-content-center">
+                <div className="col-3">
                     <ButtonDropDown
                         buttonLabel="Basic Lands"
                         labels={["Mountain", "Forest", "Island", "Plains", "Swamp"]}
                         onClickHandler={() => { }}
                     />
                 </div>
-                <div className="col-4 text-center">
+                <div className="col-6">
                     <FormMana
-
+                        ReturnColorList={UpdateManaColorState}
                     />
                 </div>
-                <div className="col-4 text-left">
-                    {getSearchDescription()}
+                <div className="col-3">
+                    {GetSearchDescription()}
                 </div>
             </div>
 
