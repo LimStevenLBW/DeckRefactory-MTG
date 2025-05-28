@@ -77,13 +77,6 @@ const DeckBuilder: React.FC = () => {
     }
     */
 
-    /**
-     * Updates the deck list
-     */
-    const setDeckList = (deckList: any) => {
-        this.setState({ deckList });
-    }
-
     const updateCounts = (deck: any) => {
         /*
         //Calculate deck count values
@@ -344,8 +337,7 @@ const DeckBuilder: React.FC = () => {
                 <div className="row">
                     <div className="col-4">
                         <BuilderSideBar
-                            deckList={deckList}
-                            deckInfo={deckInfo}
+                            deck={builderState.deck}
                             textProperty="name"
                             onLeftSelect={addNewCard}
                             onRightSelect={removeCard}

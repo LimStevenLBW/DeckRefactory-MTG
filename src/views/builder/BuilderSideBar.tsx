@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/js/dist/collapse';
 import SideBarItem from './SideBarItem';
 import CollapsableLink from '../_common/CollapsableLink';
+import { Deck } from '../../models/Deck';
 
 /**
  * Expanded on a reusable wrapper for the Bootstrap Listgroup, 
@@ -14,17 +15,19 @@ const side = "sideCollapseTarget";
 const misc = "miscCollapseTarget";
 
 interface Props {
-    deckList: any;
-    deckInfo: any;
+    deck: Deck;
     textProperty: string;
     onLeftSelect: () => void;
     onRightSelect: () => void;
     onShiftClick: () => void;
 }
 
-const BuilderSideBar: React.FC<Props> = ({ deckList, deckInfo, textProperty, onLeftSelect, onRightSelect, onShiftClick }) => {
+const BuilderSideBar: React.FC<Props> = ({ deck, textProperty, onLeftSelect, onRightSelect, onShiftClick }) => {
 
-    const { mainCnt, sideCnt, miscCnt } = deckInfo;
+    let deckInfo = deck.info;
+    let deckList = deck.list;
+    let { mainCnt, sideCnt, miscCnt } = deckInfo;
+
     return (
         //Note: The index is used as the key property for now, this may introduce bugs
         <div className="mh-100 BuilderSideBar border border-primary rounded">
@@ -64,7 +67,7 @@ const BuilderSideBar: React.FC<Props> = ({ deckList, deckInfo, textProperty, onL
                     {deckList.side.map((item, index) => (
                         <SideBarItem
                             item={item}
-                            key={index + item.quantity}
+                            key={index}
                             textProperty={textProperty}
                             onLeftSelect={onLeftSelect}
                             onRightSelect={onRightSelect}

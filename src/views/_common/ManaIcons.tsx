@@ -1,5 +1,6 @@
 import React from 'react';
-import './ManaIcons.scss'
+//import './ManaIcons.scss'
+
 import mana0 from '../../images/mana/0.svg';
 import mana1 from '../../images/mana/1.svg';
 import mana2 from '../../images/mana/2.svg';
@@ -55,18 +56,18 @@ const ManaIcons = ({ mana }) => {
     let char;
     let src;
     let srcList = [];
-    if(mana) 
-        for(let i = 0; i < mana.length; i++){
+    if (mana)
+        for (let i = 0; i < mana.length; i++) {
             char = mana[i];
-            if(char === '{' || char === '}') continue;
-            
-            if(i < mana.length-1){ //Check for multichar mana codes
+            if (char === '{' || char === '}') continue;
+
+            if (i < mana.length - 1) { //Check for multichar mana codes
                 const nextChar = mana[i + 1];
-                if(nextChar !== '}' && nextChar !== ' ') char = char + nextChar; //Combine the two
+                if (nextChar !== '}' && nextChar !== ' ') char = char + nextChar; //Combine the two
                 i++; //Skip the next iteration
             }
 
-            switch(char){
+            switch (char) {
                 case '0': src = mana0; break;
                 case '1': src = mana1; break;
                 case '2': src = mana2; break;
@@ -102,13 +103,13 @@ const ManaIcons = ({ mana }) => {
                 case 'GU': src = manaGU; break;
                 case 'GW': src = manaGW; break;
                 case 'G': src = manaG; break; //Green
-                case 'RG': src = manaRG; break 
-                case 'RP': src = manaRP; break 
-                case 'RW': src = manaRW; break 
+                case 'RG': src = manaRG; break
+                case 'RP': src = manaRP; break
+                case 'RW': src = manaRW; break
                 case 'R': src = manaR; break //Red
-                case 'S': src = manaS; break 
+                case 'S': src = manaS; break
                 case 'UB': src = manaUB; break
-                case 'UP': src = manaUP; break 
+                case 'UP': src = manaUP; break
                 case 'UR': src = manaUR; break
                 case 'U': src = manaU; break //Blue
                 case 'WB': src = manaWB; break;
@@ -118,26 +119,26 @@ const ManaIcons = ({ mana }) => {
                 case 'X': src = manaX; break; //X
                 default:
                     src = null;
-                    //console.log(mana);
+                //console.log(mana);
             }
 
-        if(src) srcList.push(src);
-    }
+            if (src) srcList.push(src);
+        }
 
-    return (  
+    return (
         <React.Fragment>
             {srcList.map((icon, index) => {
-                return(
-                     <img 
-                        key = {index}
-                        className = "mana-icon pb-1 pr-1" 
-                        src = {icon}
-                        alt = "test">
+                return (
+                    <img
+                        key={index}
+                        className="mana-icon pb-1 pr-1"
+                        src={icon}
+                        alt="test">
                     </img>
                 );
             })}
         </React.Fragment>
     );
 }
- 
+
 export default ManaIcons;
