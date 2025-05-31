@@ -1,110 +1,108 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SideBarItem.scss';
 import ManaIcons from '../_common/ManaIcons';
 
 interface Props {
-    item: item;
-    key: number;
+    item: any;
     textProperty: string;
     listName: string;
     onLeftSelect: () => void;
     onRightSelect: () => void;
     onShiftClick: () => void;
-
-
 }
 
 
-const SideBarItem: React.FC<Props> = ({ textProperty, onLeftSelect, onRightSelect, onShiftClick }) => {
-    state = {
-        quantity: this.props.item.quantity,
+const SideBarItem: React.FC<Props> = ({ item, listName, textProperty, onLeftSelect, onRightSelect, onShiftClick }) => {
+
+    const baseClassList = "w-100 sb-item list-group-item d-flex justify-content-between align-items-center p-1";
+
+    const [ItemState, setItemState] = useState({
+        // quantity: this.props.item.quantity,
         isTooltipVisible: false,
         isPlayingAnim: false,
-        classList: this.baseClassList
-    }
+        classList: baseClassList
+    });
 
-    baseClassList = "w-100 sb-item list-group-item d-flex justify-content-between align-items-center p-1"
 
-    componentDidMount() {
-        this.playAnimation();
-        //   this.setState({quantity: this.props.item.quantity})
-    }
 
-    //Watch for changes to quantity and set the state, triggering component did update
-    static getDerivedStateFromProps(nextProps, prevState) {
-    //if(nextProps.item.quantity)
-    if (prevState.quantity !== nextProps.item.quantity) {
-        return {
-            quantity: nextProps.item.quantity
-        };
-    }
-    return null;
-}
+    //Component Did Mount Replacement and Componetn Did Update Replacement
 
-componentDidUpdate(prevProps, prevState) {
-    if (prevState.quantity !== this.state.quantity) {
-        this.playAnimation();
-    }
-}
+    //No dependency array: If no dependency array is provided, useEffect runs after every render. 
+    //Empty dependency array([]): useEffect runs only once, after the initial render.
+    //Dependency array with values: useEffect runs after the initial render and then again whenever any of the values in the dependency array change between renders.
+    useEffect(() => {
+        playAnimation();
+        // The dependency array ensures this effect runs only when 'value' changes
+    }, [ItemState]);
 
-/*
-componentDidUpdate(prevProps, prevState) {
-    if (this.props.item !== prevProps.item) {
-        console.log('hello?')
-        this.playAnimation();
-    }
-}
-*/
-onMouseOverHandler = () => {
-    this.setState({ isTooltipVisible: true })
-}
-
-onMouseOutHandler = () => {
-    this.setState({ isTooltipVisible: false })
-}
-
-playAnimation = () => {
-    const classList = [(this.baseClassList)];
-    //console.log(classList)
 
     /*
-    if(this.state.isPlayingAnim){
-        //Reset the animation
-        this.setState({ classList: this.baseClassList }, ()=> {
-            classList.push("glow-anim");
-        });
+        //Watch for changes to quantity and set the state, triggering component did update
+        static getDerivedStateFromProps(nextProps, prevState) {
+        //if(nextProps.item.quantity)
+        if (prevState.quantity !== nextProps.item.quantity) {
+            return {
+                quantity: nextProps.item.quantity
+            };
+        }
+        return null;
+    }
+        */
+
+
+    /*
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.item !== prevProps.item) {
+            console.log('hello?')
+            this.playAnimation();
+        }
+    }
     */
-    classList.push("glow-anim"); //Play the animation
+    const onMouseOverHandler = () => {
+        setItemState(prev => ({ ...prev, ["isTooltipVisible"]: true }));
+    }
 
-    this.setState({ classList: classList.join(' '), isPlayingAnim: true });
-}
+    const onMouseOutHandler = () => {
+        setItemState(prev => ({ ...prev, ["isTooltipVisible"]: false }));
+    }
 
-onAnimationEndHandler = () => {
-    this.setState({
-        isPlayingAnim: false,
-        classList: "w-100 sb-item list-group-item d-flex justify-content-between align-items-center p-1"
-    });
-}
+    const playAnimation = () => {
+        const classList = [(ItemState.classList)];
+        //console.log(classList)
 
+        /*
+        if(this.state.isPlayingAnim){
+            //Reset the animation
+            this.setState({ classList: this.baseClassList }, ()=> {
+                classList.push("glow-anim");
+            });
+        */
+        classList.push("glow-anim"); //Play the animation
 
-render() {
-    const { item, textProperty, onLeftSelect, onRightSelect, onShiftClick, listName } = this.props;
+        setItemState(prev => ({ ...prev, classList: classList.join(' '), isPlayingAnim: true }));
+    }
+
+    const onAnimationEndHandler = () => {
+        setItemState(prev => ({ ...prev, classList: "w-100 sb-item list-group-item d-flex justify-content-between align-items-center p-1", isPlayingAnim: false }));
+    }
+
+    // listname item
 
     return (
         <li
             className="sb-item-container d-flex align-items-center"
         >
             <div
-                className={this.state.classList}
-                onAnimationEnd={this.onAnimationEndHandler}
+                className={ItemState.classList}
+                onAnimationEnd={onAnimationEndHandler}
                 onClick={() => {
                     onLeftSelect(item, listName);
                 }}
                 onContextMenu={(e) => {
                     onRightSelect(e, item, listName); //e is provided to prevent context menu from opening, listname is needed to know which list to add to
                 }}
-                onMouseOver={this.onMouseOverHandler}
-                onMouseOut={this.onMouseOutHandler}
+                onMouseOver={onMouseOverHandler}
+                onMouseOut={onMouseOutHandler}
             >
                 <span className="badge badge-primary badge-pill mr-1">{item.quantity}</span>
                 <div className="text-truncate">
@@ -154,6 +152,6 @@ render() {
         </li>
     );
 }
-}
+
 
 export default SideBarItem;

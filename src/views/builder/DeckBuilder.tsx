@@ -20,7 +20,7 @@ import Tabs from '../_common/Tabs';
 //import dataApi from '../../services/dataApi';
 
 import './DeckBuilder.css';
-import { Deck, GetEmptyDeck } from '../../models/deck';
+import { Deck, GetEmptyDeck } from '../../models/Deck';
 
 
 type BuilderState = {
@@ -87,18 +87,18 @@ const DeckBuilder: React.FC = () => {
         */
     }
 
+    type DeckBoard = "main" | "side" | "misc";
     /**
      * Add a new card into a named section of the decklist, defaulting to main
      * If a duplicate exists, quantity is updated instead, Deck state is updated to trigger a re-render
      */
-    const addNewCard = () => {
-        /*
-        (newCard, listName = 'main')
-        let deck = this.state.deck;
+    const addNewCard = (newCard: any, listName: DeckBoard) => {
+
+        let deck = builderState.deck;
         const workingList = deck.list[listName];
-    
+
         //Check if the card already exists
-        const duplicate = this.checkForDuplicate(newCard, workingList)
+        const duplicate = checkForDuplicate(newCard, workingList)
         if (duplicate !== false) {
             workingList[duplicate].quantity++;
         }
@@ -106,12 +106,12 @@ const DeckBuilder: React.FC = () => {
             newCard["quantity"] = 1;
             workingList.push(newCard);
         }
-    
+
         deck.list[listName] = workingList;
-    
-        deck = this.updateCounts(deck);
-        this.setState({ deck });
-        */
+
+        deck = updateCounts(deck);
+        setBuilderState(prev => ({ ...prev, deck }));
+
     }
 
     /**
@@ -198,16 +198,15 @@ const DeckBuilder: React.FC = () => {
      * Examine each card in a provided list and returns the index of the duplicate if it exists
      * Currently only examines based on name
     */
-    const checkForDuplicate = () => {
-        /*
-        (newCard, list)
-            for (let i = 0; i < list.length; i++) {
-                if (list[i].name === newCard.name) {
-                    return i;
-                }
+    const checkForDuplicate = (newCard: any, workingList: any) => {
+
+        for (let i = 0; i < workingList.length; i++) {
+            if (workingList[i].name === newCard.name) {
+                return i;
             }
-            return false;
-            */
+        }
+        return false;
+
     }
 
     /**
