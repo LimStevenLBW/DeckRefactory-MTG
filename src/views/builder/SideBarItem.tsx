@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './SideBarItem.scss';
+import './SideBarItem.css';
 import ManaIcons from '../_common/ManaIcons';
 
 interface Props {
